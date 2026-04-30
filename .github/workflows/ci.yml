@@ -1,34 +1,52 @@
-name: CI Pipeline
+name: CI + Allure Report
 
 on:
   push:
     branches: [ main ]
-  pull_request:
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ 拉代码
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # 2️⃣ 安装 Python
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
 
-      # 3️⃣ 安装依赖
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Set PYTHONPATH
         run: echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
 
-      # 4️⃣ 运行测试（核心）
-      - name: Run tests
+      # 🟢 中文报告
+      - name: Run tests (ZH)
         run: |
-          pytest
+          export LANGUAGE=zh
+          pytest --alluredir=allure-results-zh
+
+      # 🔵 英文报告
+      - name: Run tests (EN)
+        run: |
+          export LANGUAGE=en
+          pytest --alluredir=allure-results-en
+
+      # 安装 Allure CLI
+      - name: Install Allure
+        run: |
+          npm install -g allure-commandline
+
+      # 生成 HTML
+      - name: Generate Allure Reports
+        run: |
+          allure generate allure-results-zh -o site/zh --clean
+          allure generate allure-results-en -o site/en --clean
+
+      # 发布到 GitHub Pages
+      - name: Deploy to Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
