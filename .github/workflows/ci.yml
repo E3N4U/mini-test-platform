@@ -1,3 +1,5 @@
+# 文件路径：.github/workflows/ci.yml
+
 name: CI + Allure Report
 
 on:
@@ -9,25 +11,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 拉代码
       - uses: actions/checkout@v4
 
+      # Python环境
       - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
 
+      # 安装依赖
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # 修复模块路径问题
       - name: Set PYTHONPATH
         run: echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
 
-      # 🟢 中文报告
+      # 中文报告
       - name: Run tests (ZH)
         run: |
           export LANGUAGE=zh
           pytest --alluredir=allure-results-zh
 
-      # 🔵 英文报告
+      # 英文报告
       - name: Run tests (EN)
         run: |
           export LANGUAGE=en
@@ -35,20 +41,19 @@ jobs:
 
       # 安装 Allure CLI
       - name: Install Allure
-        run: |
-          npm install -g allure-commandline
+        run: npm install -g allure-commandline
 
-      # 生成 HTML
-      - name: Generate Allure Reports
+      # 生成报告
+      - name: Generate Reports
         run: |
           mkdir -p site
-          cp site/index.html site/index.html || true
           allure generate allure-results-zh -o site/zh --clean
           allure generate allure-results-en -o site/en --clean
 
-      # 发布到 GitHub Pages
+      # 发布 Pages
       - name: Deploy to Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./site
+          force_orphan: true

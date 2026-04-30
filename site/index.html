@@ -2,53 +2,62 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>Test Report</title>
+  <title>Mini Test Platform</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      text-align: center;
+      font-family: Arial;
       background: #f5f7fa;
-      margin: 0;
-      padding: 50px;
+      text-align: center;
+      padding: 40px;
     }
-    h1 {
-      margin-bottom: 30px;
+    .container {
+      max-width: 800px;
+      margin: auto;
     }
     .card {
-      display: inline-block;
-      margin: 20px;
-      padding: 20px 40px;
       background: white;
+      padding: 20px;
+      margin: 20px 0;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    a.btn {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 20px;
+      border-radius: 8px;
       text-decoration: none;
-      color: #333;
-      transition: 0.2s;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-    }
-    .lang {
-      font-size: 18px;
-      margin-top: 10px;
-      color: #666;
+      background: #007bff;
+      color: white;
     }
   </style>
 </head>
 <body>
+<div class="container">
 
-  <h1>🚀 Test Report / 测试报告</h1>
+  <h1>🚀 Mini Test Platform</h1>
 
-  <a class="card" href="./zh/index.html">
-    🇨🇳 中文报告
-    <div class="lang">Chinese Report</div>
-  </a>
+  <div class="card">
+    <h3>📌 项目介绍</h3>
+    <p>一个基于 FastAPI + Pytest + Allure 的自动化测试平台，支持 CI/CD 与多语言测试报告展示。</p>
+  </div>
 
-  <a class="card" href="./en/index.html">
-    🇺🇸 English Report
-    <div class="lang">英文报告</div>
-  </a>
+  <div class="card">
+    <h3>🛠 技术栈</h3>
+    <p>FastAPI / Pytest / Allure / GitHub Actions / Docker（可扩展）</p>
+  </div>
 
+  <div class="card">
+    <h3>📊 测试报告</h3>
+    <a class="btn" href="./zh/index.html">🇨🇳 中文报告</a>
+    <a class="btn" href="./en/index.html">🇺🇸 English Report</a>
+  </div>
+
+  <div class="card">
+    <h3>🔗 项目地址</h3>
+    <a href="https://github.com/E3N4U/mini-test-platform">GitHub Repo</a>
+  </div>
+
+</div>
 </body>
 </html>

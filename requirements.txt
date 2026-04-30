@@ -1,8 +1,6 @@
 fastapi
 uvicorn
-sqlalchemy
-pydantic
-requests
 pytest
-httpx
+requests
 allure-pytest
+httpx
