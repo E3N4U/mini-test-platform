@@ -1,23 +1,24 @@
 import os
 import allure
+import pytest
 
 LANG = os.getenv("LANGUAGE", "zh")
 
-# 中英切换函数
 def t(zh, en):
     return zh if LANG == "zh" else en
 
 
 @allure.feature(t("接口测试", "API Test"))
-@allure.story(t("访问文档接口", "Access docs endpoint"))
-def test_docs(client):
+@allure.story(t("访问创建接口", "Create API endpoint"))
+def test_create(client):
+
+    data = {"key": "value"}
 
     with allure.step(t("发送请求", "Send request")):
-        res = client.get("/docs")
+        res = client.post("/api/create", json=data)
 
-        # 👉 把响应写入报告（加分点）
         allure.attach(
-            res.text,
+            str(res.json()),
             name="response body",
             attachment_type=allure.attachment_type.JSON
         )
@@ -26,15 +27,12 @@ def test_docs(client):
         assert res.status_code == 200
 
 
-# 👉 参数化测试（加分项）
-import pytest
-
 @pytest.mark.parametrize("data", [
     {"key": "value"},
     {"key": "test"}
 ])
-def test_post(client, data):
-    res = client.post("https://httpbin.org/post", json=data)
+def test_create_param(client, data):
+    res = client.post("/api/create", json=data)
 
     assert res.status_code == 200
-    assert res.json()["json"] == data
+    assert "key" in res.json()
