@@ -23,7 +23,10 @@ jobs:
       # 3️⃣ 安装依赖
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install -r requirements.
+
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
 
       # 4️⃣ 运行测试（核心）
       - name: Run tests
