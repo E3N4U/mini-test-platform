@@ -1,12 +1,19 @@
-from pydantic import BaseModel
-
-class APICreate(BaseModel):
-    name: str
-    url: str
-    method: str
+import pytest
 
 
-class CaseCreate(BaseModel):
-    api_id: int
-    input_data: str
-    expected: str
+@pytest.mark.parametrize("data", [
+    {
+        "name": "api1",
+        "url": "https://example.com/1",
+        "method": "POST"
+    },
+    {
+        "name": "api2",
+        "url": "https://example.com/2",
+        "method": "GET"
+    }
+])
+def test_create_param(client, data):
+    res = client.post("/api/create", json=data)
+
+    assert res.status_code == 200
