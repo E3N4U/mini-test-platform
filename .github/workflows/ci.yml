@@ -41,6 +41,8 @@ jobs:
       # 生成 HTML
       - name: Generate Allure Reports
         run: |
+          mkdir -p site
+          cp site/index.html site/index.html || true
           allure generate allure-results-zh -o site/zh --clean
           allure generate allure-results-en -o site/en --clean
 
